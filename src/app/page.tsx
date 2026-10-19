@@ -1,22 +1,21 @@
 "use cache";
 import MainNews from "@/components/MainNews";
-
 import MostRead from "@/components/MostRead";
 import NewsCard from "@/components/NewsCard";
 
+interface IArticle {
+  id?: string;
+  title?: string;
+  description?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  category?: string;
+}
 
-interface IOtherSecions{
-  curationID?:string;
-  title?:string;
-  articles?:{
-    id?:string;
-    title?:string;
-    description?:string;
-    imageUrl?:string;
-    imageAlt?:string;
-    category?:string;
-  
-  }
+interface IOtherSections {
+  curationID?: string;
+  title?: string;
+  articles?: IArticle[];
 }
 
 export default async function Home() {
@@ -24,12 +23,10 @@ export default async function Home() {
   const data = await res.json();
   const sections = data.data;
   const mainNews = sections[0].articles;
-  const otherSections:IOtherSections[] = sections.slice(1);
+  const otherSections: IOtherSections[] = sections.slice(1);
 
   return (
     <div>
-      
-
       <div className="grid gap-5 grid-cols-3 container mx-auto">
         {/* News section */}
         <div className="col-span-2">
@@ -44,7 +41,7 @@ export default async function Home() {
                 <h1 className="font-bold">{section.title}</h1>
 
                 <div className="grid grid-cols-3 gap-5 mt-2">
-                  {section.articles.map((article, i) => (
+                  {(section.articles ?? []).map((article, i) => (
                     <NewsCard
                       key={article.id ?? `${section.title}-${i}`}
                       article={article}
@@ -57,8 +54,8 @@ export default async function Home() {
         </div>
 
         {/* Most Read Section */}
-        <div className= " col-span-1">
-          <MostRead/>
+        <div className="col-span-1">
+          <MostRead />
         </div>
       </div>
     </div>
