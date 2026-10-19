@@ -4,12 +4,12 @@ import MostRead from "@/components/MostRead";
 import NewsCard from "@/components/NewsCard";
 
 interface IArticle {
-  id?: string;
-  title?: string;
-  description?: string;
-  imageUrl?: string;
-  imageAlt?: string;
-  category?: string;
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageAlt: string;
+  category: string;
 }
 
 interface IOtherSections {
