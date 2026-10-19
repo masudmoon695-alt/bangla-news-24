@@ -2,8 +2,8 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
-const client = new MongoClient(process.env.MONGODB_URL as string);
-const db = client.db("bangla-news-24");
+const client = process.env.MONGODB_URL ? new MongoClient(process.env.MONGODB_URL) : null;
+const db = client ? client.db("bangla-news-24") : null;
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
@@ -16,7 +16,16 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
-  database: mongodbAdapter(db, {
-    client,
-  }),
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google"],
+    },
+  },
+  database: db && client ? mongodbAdapter(db, { client }) : undefined,
+  onAPIError: {
+    onError: (error) => {
+      console.error("AUTH ERROR:", error);
+    },
+  },
 });
