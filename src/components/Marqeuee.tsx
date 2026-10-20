@@ -1,5 +1,6 @@
 "use cache";
 import MarqueeText from "react-marquee-text"
+import Link from "next/link"
 import "react-marquee-text/dist/styles.css"
 import React from 'react';
 interface IHeadlines{
@@ -24,9 +25,9 @@ const Marqeuee = async() => {
 
       <MarqueeText className="py-1" direction="right" duration={10}>
 {headlines.map(h=><span>
-        <span key={h.id}>
+        <Link key={h.id} href={`/news/${h.id}`}>
           {h.title}
-        </span>
+        </Link>
         <span className='mx-5'>•</span>
       </span>)}
       </MarqueeText>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 type News = {
@@ -28,45 +29,48 @@ const MainNews = ({ news }: { news: News[] }) => {
   return (
     <div className="flex items-stretch gap-6">
       {/* Main news card */}
-      <div className="card bg-base-100 w-96 shrink-0 shadow-sm">
-        {firstNews.category && (
-          <p className="px-4 pt-3 text-red-600 font-semibold">
-            {firstNews.category}
-          </p>
-        )}
+<Link href={`/news/${firstNews.id}`}>
+        <div className="card bg-base-100 w-96 shrink-0 shadow-sm">
+          {firstNews.category && (
+            <p className="px-4 pt-3 text-red-600 font-semibold">
+              {firstNews.category}
+            </p>
+          )}
 
-        {imageSrc && (
-          <figure>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imageSrc}
-              alt={firstNews.title ?? "news"}
-              className="w-full h-auto"
-            />
-          </figure>
-        )}
+          {imageSrc && (
+            <figure>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageSrc}
+                alt={firstNews.title ?? "news"}
+                className="w-full h-auto"
+              />
+            </figure>
+          )}
 
-        <div className="card-body">
-          <h2 className="card-title">{firstNews.title}</h2>
-          <p>{firstNews.description}</p>
+          <div className="card-body">
+            <h2 className="card-title">{firstNews.title}</h2>
+            <p>{firstNews.description}</p>
+          </div>
         </div>
-      </div>
+      </Link>
 
       {/* Other news list: main card er shoman height */}
       <div className="flex flex-1 flex-col bg-base-100">
         {otherNews.map((on, i) => (
-          <div
-            key={on.id ?? i}
-            className="flex flex-1 flex-col justify-center border-b border-gray-300 py-3 last:border-b-0"
-          >
-            {on.category && (
-              <p className="text-red-500 text-sm font-semibold">
-                {on.category}
-              </p>
-            )}
+          <Link key={on.id ?? i} href={`/news/${on.id}`}>
+            <div
+              className="flex flex-1 flex-col justify-center border-b border-gray-300 py-3 last:border-b-0"
+            >
+              {on.category && (
+                <p className="text-red-500 text-sm font-semibold">
+                  {on.category}
+                </p>
+              )}
 
-            <h3>{on.title}</h3>
-          </div>
+              <h3>{on.title}</h3>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
